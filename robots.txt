@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://westmarqueesandinflatables.ie/sitemap.xml
