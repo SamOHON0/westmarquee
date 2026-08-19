@@ -73,9 +73,11 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(253,250,242,.94);bac
 .mobile-menu a:last-child{color:var(--green)}
 
 /* hero (home) */
-.hero{position:relative;overflow:hidden;background:var(--green-deep)}
+/* --hero-focus is the focal point of the photo. Tune this one value if the
+   crop cuts off the subject: first number = horizontal, second = vertical. */
+.hero{--hero-focus:50% 38%;position:relative;overflow:hidden;background:var(--green-deep)}
 .hero-bg{position:absolute;inset:0}
-.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 38%}
+.hero-bg img{width:100%;height:100%;object-fit:cover;object-position:var(--hero-focus)}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(6,44,35,.88) 0%,rgba(6,44,35,.62) 46%,rgba(6,44,35,.28) 100%)}
 .hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,640px);align-items:center;min-height:clamp(440px,64vh,580px);padding:52px 0 60px}
 .hero-copy{color:#fff}
@@ -83,7 +85,27 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(253,250,242,.94);bac
 .hero h1 em{font-style:normal;color:var(--amber)}
 .hero p{font-size:clamp(16px,1.9vw,19px);color:#e7f3ee;margin-top:14px;max-width:44ch;font-weight:600}
 .hero-actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
-@media(max-width:760px){.hero-inner{text-align:left}}
+
+/* Wide/short screens: a landscape photo has spare width, so ease off the crop
+   and let the shorter hero show more of the frame. */
+@media(min-width:1100px) and (max-height:820px){
+  .hero-inner{min-height:clamp(400px,58vh,500px)}
+}
+
+/* Very wide screens: cap the hero so the photo is not stretched into a strip. */
+@media(min-width:1600px){
+  .hero-inner{min-height:560px}
+}
+
+/* Mobile: a landscape photo cropped to a narrow tall box loses almost
+   everything either side, so shorten the box, pull the crop to centre and
+   run the overlay vertically for readability. */
+@media(max-width:760px){
+  .hero{--hero-focus:50% 42%}
+  .hero-inner{text-align:left;min-height:clamp(380px,54vh,460px);padding:40px 0 44px}
+  .hero-bg::after{background:linear-gradient(180deg,rgba(6,44,35,.82) 0%,rgba(6,44,35,.68) 45%,rgba(6,44,35,.5) 100%)}
+  .hero p{max-width:34ch}
+}
 
 /* trust band under hero */
 .trustband{background:var(--green);color:#eaf6f1}

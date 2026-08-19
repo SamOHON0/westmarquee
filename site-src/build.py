@@ -3,7 +3,7 @@
 import os, shutil, html
 from data import *
 
-OUT = os.environ.get("SITE_OUT") or os.path.join(os.path.dirname(__file__), "..", "site")
+OUT = os.environ.get("SITE_OUT") or os.path.join(os.path.dirname(__file__), "..")
 
 # ---------------------------------------------------------------- logo -------
 LOGO_MARK = """<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">

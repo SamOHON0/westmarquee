@@ -27,8 +27,8 @@ def build_home():
   <div class="wrap">
     <div class="hero-inner">
       <div class="hero-copy">
-        <h1>Big days out, <em>delivered</em> to your door</h1>
-        <p>Obstacle courses, combi castles, marquees, foot darts and the unique Pub Inflatable. Booked online in two minutes, set up by us.</p>
+        <h1>Inflatable and <em>marquee hire</em> across the west</h1>
+        <p>Obstacle courses, combi castles, marquees, foot darts and the Pub Inflatable. Based in Oranmore, delivered and set up across Galway, Mayo, Roscommon, Clare and Limerick.</p>
         <div class="hero-actions">
           <a href="/book/" class="btn btn-amber">Book online</a>
           <a href="/hire/" class="btn btn-ghost">See the range</a>
@@ -41,7 +41,7 @@ def build_home():
 
 <div class="wrap">
   <div class="checker" data-reveal>
-    <h3>Do we deliver to you?</h3>
+    <h3>Check your area</h3>
     <p>We cover Galway, Mayo, Roscommon, Clare and Limerick from our base in Oranmore.</p>
     <div class="checker-row">
       <select id="areaSel" aria-label="Select your area">
@@ -58,7 +58,7 @@ def build_home():
 <section class="sec">
   <div class="wrap">
     <div class="sec-head">
-      <h2>What are you planning?</h2>
+      <h2>Browse by type</h2>
       <p class="lede">Castles, courses, marquees and games, all from one local team. Mix and match into a package for the day.</p>
     </div>
     {cats_tiles}
@@ -68,7 +68,7 @@ def build_home():
 <section class="sec tint">
   <div class="wrap">
     <div class="sec-head">
-      <h2>Crowd favourites</h2>
+      <h2>Most booked</h2>
       <p class="lede">The units that get booked again and again across the west.</p>
     </div>
     <div class="grid-cards">{featured}</div>
@@ -83,9 +83,9 @@ def build_home():
     </div>
     <div class="steps">
       <div class="step" data-reveal><div class="num">1</div><h3>Pick your unit</h3><p>Browse the range and choose a castle, course, marquee or game.</p></div>
-      <div class="step" data-reveal><div class="num">2</div><h3>Choose your date</h3><p>Send a booking request online in about two minutes. No card needed.</p></div>
+      <div class="step" data-reveal><div class="num">2</div><h3>Choose your date</h3><p>Send a booking request online. No card needed.</p></div>
       <div class="step" data-reveal><div class="num">3</div><h3>We confirm</h3><p>We check availability and come back with your price, usually same day.</p></div>
-      <div class="step" data-reveal><div class="num">4</div><h3>We do the rest</h3><p>Delivered, set up and collected. You just enjoy the day.</p></div>
+      <div class="step" data-reveal><div class="num">4</div><h3>Delivery and setup</h3><p>We deliver, set up and collect on the day.</p></div>
     </div>
   </div>
 </section>
@@ -96,7 +96,7 @@ def build_home():
       <div class="img" data-reveal><img src="{IMG}2026/05/pub-home.jpg" alt="The Pub Inflatable, styled like a traditional Irish pub" loading="lazy"></div>
       <div data-reveal>
         <h2>The Pub Inflatable</h2>
-        <p>Styled like a traditional Irish pub on the outside, marquee style on the inside. One of very few in Ireland, and the guaranteed talking point of any wedding, festival or party.</p>
+        <p>Styled like a traditional Irish pub on the outside, marquee style on the inside. Used as a bar, a seating area or the centrepiece at weddings, festivals and garden parties.</p>
         <ul class="checks">
           <li>{CHECK_SVG}Works as a bar area, seating space or centrepiece</li>
           <li>{CHECK_SVG}Pairs brilliantly with a marquee or castle package</li>
@@ -113,13 +113,13 @@ def build_home():
 <section class="sec">
   <div class="wrap">
     <div class="sec-head center">
-      <h2>What locals say</h2>
+      <h2>Reviews</h2>
     </div>
     <div class="reviews">{reviews}</div>
   </div>
 </section>
 
-{cta_band("Let's plan your day", "Book online now, or give us a shout and we will build you a package. Friendly advice, honest prices, no hassle.")}
+{cta_band("Book or ask a question", "Send a booking request online, or call us and we will put a package together for your date.")}
 {footer()}"""
 
     extra = f"""<script type="application/ld+json">
@@ -203,7 +203,7 @@ def build_products():
 def build_book():
     body = f"""
 {navbar("")}
-{page_hero("Book online", "Pick your unit and date and send a booking request in about two minutes. We confirm availability and price, usually the same day. No card needed.",
+{page_hero("Book online", "Pick your unit and date and send a booking request. We confirm availability and price, usually the same day. No card needed.",
            crumbs=[("/", "Home"), (None, "Book online")])}
 <section class="sec">
   <div class="wrap" style="max-width:860px">
@@ -306,7 +306,7 @@ def build_areas():
         <p>The full West Marquees range is available in {t['name']}: 55ft obstacle courses, themed combi castles, the 4M foot dart board, marquees and the Pub Inflatable. Delivery, setup and collection included.</p>
         <ul class="checks">
           <li>{CHECK_SVG}Fully insured, cleaned between every hire</li>
-          <li>{CHECK_SVG}Booked online in about two minutes</li>
+          <li>{CHECK_SVG}Book online</li>
           <li>{CHECK_SVG}Local team based in Oranmore, Co Galway</li>
         </ul>
         <div class="acts" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
@@ -356,7 +356,7 @@ def build_about():
 </section>
 <section class="sec tint">
   <div class="wrap">
-    <div class="sec-head center"><h2>What locals say</h2></div>
+    <div class="sec-head center"><h2>Reviews</h2></div>
     <div class="reviews">{"".join(f'<div class="review" data-reveal><div class="stars">{"&#9733;" * r["stars"]}</div><p>&ldquo;{r["text"]}&rdquo;</p><div class="who">{r["who"]}<span>{r["where"]}</span></div></div>' for r in REVIEWS)}</div>
   </div>
 </section>
@@ -378,7 +378,7 @@ def build_faqs():
     {faq_html(FAQS)}
   </div>
 </section>
-{cta_band("Ready when you are", "Book online in about two minutes, or talk to us first. Either way we will look after you.")}
+{cta_band("Get in touch", "Send a booking request online, or call us on 085 269 6628.")}
 {footer()}"""
     faq_ld = ",".join(
         f'{{"@type":"Question","name":"{q}","acceptedAnswer":{{"@type":"Answer","text":"{a}"}}}}'
