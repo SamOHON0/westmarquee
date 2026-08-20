@@ -21,6 +21,20 @@ Then in Vercel: New Project, import the repo, framework preset "Other", no build
 - Widget embedded on /book/ and every product page (deep links via `data-item` slug)
 - price-sync.js runs site-wide: prices entered in the PartyOps admin appear on the site automatically
 
+## Asset caching (important when deploying)
+
+`vercel.json` sets `Cache-Control: public, max-age=0, must-revalidate` on `/assets/`. That is deliberate: asset filenames are not fingerprinted, so a long max-age leaves returning visitors on the previous `style.css` and `site.js` for up to a day after a deploy, which makes a correct deploy look broken. The three files in `/assets/` total under 35KB, so revalidating costs a 304 and nothing else.
+
+Note that `vercel.json` is schema-validated by Vercel and rejects unknown keys, including any attempt to add a `comment` field. Document changes here instead.
+
+If the site grows, fingerprint asset filenames at build time (`style.<hash>.css`) and restore a long max-age.
+
+## Availability calendar
+
+The home page has a date-first availability calendar backed by `partyops.app/api/day-availability`. It is gated on `AVAILABILITY_CALENDAR` in `site-src/data.py`.
+
+Important: that API returns `available: false` for any product flagged `price_on_request`, so while the catalogue is unpriced every date reports nothing free. The empty state is worded neutrally for that reason. Set the flag to `False` to hide the section until real prices are loaded.
+
 ## Contact form
 
 FormSubmit (no account needed), currently pointed at samohigginsemail@gmail.com. Your first submission triggers a one-time activation email; click it and the form is live. At handover, change the form action in `site-src/pages.py` to Hugh's address, rebuild, and have him click the activation link on the first enquiry. Success redirects to /contact/thanks/.

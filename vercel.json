@@ -3,7 +3,6 @@
   "trailingSlash": true,
   "headers": [
     {
-      "comment": "Asset filenames are not fingerprinted, so a long max-age leaves returning visitors on stale CSS and JS for a day after every deploy. These three files total under 35KB; revalidating costs a 304 and keeps deploys honest.",
       "source": "/assets/(.*)",
       "headers": [{ "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }]
     }
