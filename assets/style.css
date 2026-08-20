@@ -73,37 +73,43 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(253,250,242,.94);bac
 .mobile-menu a:last-child{color:var(--green)}
 
 /* hero (home) */
-/* --hero-focus is the focal point of the photo. Tune this one value if the
-   crop cuts off the subject: first number = horizontal, second = vertical. */
-.hero{--hero-focus:50% 38%;position:relative;overflow:hidden;background:var(--green-deep)}
-.hero-bg{position:absolute;inset:0}
+/* The home hero photo is SQUARE (1000x1000). Stretched full-bleed across a
+   ~3.3:1 band it showed only ~30% of the frame and sliced the pub sign off.
+   So on desktop the photo occupies the right-hand side at close to its own
+   proportions (~60% of the frame visible) and the copy sits on flat green,
+   with a mask feathering the join. Mobile keeps the full-bleed treatment.
+   --hero-focus is the focal point: first number horizontal, second vertical. */
+.hero{--hero-focus:50% 50%;position:relative;overflow:hidden;background:var(--green-deep)}
+.hero-bg{position:absolute;inset:0 0 0 auto;width:58%;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 10%,#000 34%);
+  mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 10%,#000 34%)}
 .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:var(--hero-focus)}
-.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(6,44,35,.88) 0%,rgba(6,44,35,.62) 46%,rgba(6,44,35,.28) 100%)}
-.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,640px);align-items:center;min-height:clamp(440px,64vh,580px);padding:52px 0 60px}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,44,35,.95) 0%,rgba(6,44,35,.55) 30%,rgba(6,44,35,.12) 62%,rgba(6,44,35,.05) 100%)}
+.hero-inner{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,580px);align-items:center;min-height:600px;padding:52px 0 60px}
 .hero-copy{color:#fff}
 .hero h1{font-size:clamp(34px,4.8vw,56px);color:#fff}
 .hero h1 em{font-style:normal;color:var(--amber)}
 .hero p{font-size:clamp(16px,1.9vw,19px);color:#e7f3ee;margin-top:14px;max-width:44ch;font-weight:600}
 .hero-actions{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
 
-/* Wide/short screens: a landscape photo has spare width, so ease off the crop
-   and let the shorter hero show more of the frame. */
-@media(min-width:1100px) and (max-height:820px){
-  .hero-inner{min-height:clamp(400px,58vh,500px)}
+/* Short viewports: keep the hero from pushing everything below the fold. */
+@media(min-height:0px) and (max-height:820px){
+  .hero-inner{min-height:min(600px,76vh)}
 }
 
-/* Very wide screens: cap the hero so the photo is not stretched into a strip. */
-@media(min-width:1600px){
-  .hero-inner{min-height:560px}
+/* Tablet: narrow the copy column before the layout flips to full-bleed. */
+@media(max-width:1080px){
+  .hero-bg{width:52%}
+  .hero-inner{grid-template-columns:minmax(0,460px);min-height:540px}
 }
 
-/* Mobile: a landscape photo cropped to a narrow tall box loses almost
-   everything either side, so shorten the box, pull the crop to centre and
-   run the overlay vertically for readability. */
-@media(max-width:760px){
-  .hero{--hero-focus:50% 42%}
-  .hero-inner{text-align:left;min-height:clamp(380px,54vh,460px);padding:40px 0 44px}
-  .hero-bg::after{background:linear-gradient(180deg,rgba(6,44,35,.82) 0%,rgba(6,44,35,.68) 45%,rgba(6,44,35,.5) 100%)}
+/* Mobile: not enough width for a split, so go back to full-bleed behind the
+   copy, shorten the box and run the overlay vertically for readability. */
+@media(max-width:900px){
+  .hero{--hero-focus:50% 34%}
+  .hero-bg{inset:0;width:100%;-webkit-mask-image:none;mask-image:none}
+  .hero-inner{text-align:left;min-height:clamp(400px,56vh,480px);padding:40px 0 44px;grid-template-columns:minmax(0,640px)}
+  .hero-bg::after{background:linear-gradient(180deg,rgba(6,44,35,.86) 0%,rgba(6,44,35,.70) 45%,rgba(6,44,35,.55) 100%)}
   .hero p{max-width:34ch}
 }
 
