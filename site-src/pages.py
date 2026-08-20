@@ -1,6 +1,41 @@
 #!/usr/bin/env python3
 from build import *
 
+def availability_block():
+    """Home-page availability calendar.
+
+    PartyOps returns available=false for any product flagged price_on_request,
+    so while the catalogue is unpriced every date reads as nothing free. Set
+    AVAILABILITY_CALENDAR = False in data.py to hide the section entirely until
+    real prices are loaded.
+    """
+    if not AVAILABILITY_CALENDAR:
+        return ""
+    return """<!-- Date-first availability. Pick a day, see what is free on it, live from
+     PartyOps. Items marked price_on_request come back from the API as
+     unavailable, so until Hugh's prices are loaded this shows the empty
+     state by design rather than a wrong answer. -->
+<div class="wrap">
+  <div class="avail" id="availability" data-reveal>
+    <h3>Pick your date, see what&rsquo;s free</h3>
+    <p>Tap a day to see everything available on it, straight from our booking system.</p>
+    <div class="avail-wrap">
+      <div class="avail-cal">
+        <div class="avail-cal-head">
+          <button class="avail-nav" id="avPrev" type="button" aria-label="Previous month">&#8249;</button>
+          <b id="avMonth"></b>
+          <button class="avail-nav" id="avNext" type="button" aria-label="Next month">&#8250;</button>
+        </div>
+        <div class="avail-grid" id="avGrid"></div>
+      </div>
+      <div class="avail-result" id="avResult">
+        <div class="avail-hint">Pick a day on the calendar to see what&rsquo;s free.</div>
+      </div>
+    </div>
+  </div>
+</div>"""
+
+
 # ------------------------------------------------------------------ home -----
 def build_home():
     cats_tiles = f"""
@@ -39,21 +74,7 @@ def build_home():
 </section>
 {trustband()}
 
-<div class="wrap">
-  <div class="checker" data-reveal>
-    <h3>Check your area</h3>
-    <p>We cover Galway, Mayo, Roscommon, Clare and Limerick from our base in Oranmore.</p>
-    <div class="checker-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your town...</option>
-        {county_opts}
-        <option value="__other__">My town isn't listed</option>
-      </select>
-      <button class="btn btn-green" id="areaBtn">Check my area</button>
-    </div>
-    <div id="areaOut"></div>
-  </div>
-</div>
+{availability_block()}
 
 <section class="sec">
   <div class="wrap">
@@ -109,6 +130,22 @@ def build_home():
     </div>
   </div>
 </section>
+
+<div class="wrap">
+  <div class="checker checker-inline" data-reveal>
+    <h3>Check your area</h3>
+    <p>We cover Galway, Mayo, Roscommon, Clare and Limerick from our base in Oranmore.</p>
+    <div class="checker-row">
+      <select id="areaSel" aria-label="Select your area">
+        <option value="">Select your town...</option>
+        {county_opts}
+        <option value="__other__">My town isn't listed</option>
+      </select>
+      <button class="btn btn-green" id="areaBtn">Check my area</button>
+    </div>
+    <div id="areaOut"></div>
+  </div>
+</div>
 
 <section class="sec">
   <div class="wrap">
@@ -556,6 +593,142 @@ try {
     document.getElementById('cookiebar').classList.remove('show');
   });
 } catch (e) { /* storage unavailable */ }
+
+/* ---------------------------------------------------------------- availability
+   Date-first availability on the home page. Asks PartyOps what is free on a
+   given day and lists it. Products flagged price_on_request come back from the
+   API as unavailable, so while the catalogue is unpriced this correctly shows
+   the empty state instead of inventing an answer. */
+(function () {
+  var grid = document.getElementById('avGrid');
+  if (!grid) return;
+
+  var API = '""" + PARTYOPS + """/api/day-availability';
+  var BIZ = '""" + BUSINESS_ID + """';
+  var PHONE_TEXT = '""" + PHONE + """';
+  var PHONE_HREF = '""" + PHONE_INTL + """';
+  var MAX_MONTHS_AHEAD = 12;
+
+  var monthLabel = document.getElementById('avMonth');
+  var result = document.getElementById('avResult');
+  var prevBtn = document.getElementById('avPrev');
+  var nextBtn = document.getElementById('avNext');
+
+  var today = new Date(); today.setHours(0, 0, 0, 0);
+  var view = new Date(today.getFullYear(), today.getMonth(), 1);
+  var selected = null;
+  var cache = {};
+
+  function ymd(d) {
+    return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') +
+           '-' + String(d.getDate()).padStart(2, '0');
+  }
+
+  function callLine(lead) {
+    return lead + ' Give us a ring on <a href="tel:' + PHONE_HREF + '">' + PHONE_TEXT + '</a>.';
+  }
+
+  function render() {
+    var year = view.getFullYear(), month = view.getMonth();
+    monthLabel.textContent = view.toLocaleDateString('en-IE', { month: 'long', year: 'numeric' });
+    var minView = new Date(today.getFullYear(), today.getMonth(), 1);
+    var maxView = new Date(today.getFullYear(), today.getMonth() + MAX_MONTHS_AHEAD, 1);
+    prevBtn.disabled = view <= minView;
+    nextBtn.disabled = view >= maxView;
+
+    grid.innerHTML = '';
+    ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'].forEach(function (d) {
+      var el = document.createElement('div');
+      el.className = 'avail-dow';
+      el.textContent = d;
+      grid.appendChild(el);
+    });
+
+    var lead = (new Date(year, month, 1).getDay() + 6) % 7; /* Monday-first */
+    for (var i = 0; i < lead; i++) {
+      var blank = document.createElement('div');
+      blank.className = 'avail-day blank';
+      grid.appendChild(blank);
+    }
+
+    var daysIn = new Date(year, month + 1, 0).getDate();
+    for (var d = 1; d <= daysIn; d++) {
+      var date = new Date(year, month, d);
+      var iso = ymd(date);
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'avail-day' + (selected === iso ? ' sel' : '');
+      btn.textContent = d;
+      if (date < today) {
+        btn.disabled = true;
+      } else {
+        btn.addEventListener('click', (function (isoDate) {
+          return function () { selected = isoDate; render(); load(isoDate); };
+        })(iso));
+      }
+      grid.appendChild(btn);
+    }
+  }
+
+  function load(iso) {
+    var pretty = new Date(iso + 'T12:00').toLocaleDateString('en-IE',
+      { weekday: 'long', day: 'numeric', month: 'long' });
+    if (cache[iso]) { show(pretty, cache[iso]); return; }
+    result.innerHTML = '<div class="avail-load">Checking ' + pretty + '...</div>';
+    fetch(API + '?business_id=' + BIZ + '&date=' + iso)
+      .then(function (r) { if (!r.ok) throw new Error('bad response'); return r.json(); })
+      .then(function (data) { cache[iso] = data; show(pretty, data); })
+      .catch(function () {
+        result.innerHTML = '<div class="avail-err">' +
+          callLine('We could not check that date just now.') + '</div>';
+      });
+  }
+
+  function show(pretty, data) {
+    var all = data.products || [];
+    var items = all.filter(function (p) { return p.available; });
+    var gone = all.length - items.length;
+
+    var html = '<div class="avail-date-label">' + pretty + '</div>';
+    if (!items.length) {
+      /* Neutral, not an error: an unpriced catalogue also lands here, and
+         "booked out" would be the wrong thing to tell someone. */
+      html += '<div class="avail-hint">' +
+        callLine('We cannot confirm that date online just yet.') + '</div>';
+      result.innerHTML = html;
+      return;
+    }
+
+    html += '<div class="avail-count">' + items.length + ' available' +
+            (gone > 0 ? ' &middot; ' + gone + ' already booked' : '') + '</div><div class="avail-list">';
+    items.forEach(function (p) {
+      var img = p.image_url
+        ? '<img src="' + encodeURI(p.image_url) + '" alt="" loading="lazy">'
+        : '<span class="avail-noimg"></span>';
+      var price = (p.price_on_request || !Number(p.price_per_day))
+        ? '<div class="pr pr-req">Price on request</div>'
+        : '<div class="pr">&euro;' + Math.round(Number(p.price_per_day)) + '</div>';
+      var href = p.slug ? '/hire/' + encodeURIComponent(p.slug) + '/' : '/book/';
+      html += '<div class="avail-item">' + img +
+              '<div class="avail-meta"><div class="nm"></div>' + price + '</div>' +
+              '<a class="bk" href="' + href + '">Book</a></div>';
+    });
+    html += '</div>';
+    result.innerHTML = html;
+
+    /* Names come from the API and are set as text, never markup. */
+    var nms = result.querySelectorAll('.avail-item .nm');
+    items.forEach(function (p, i) { if (nms[i]) nms[i].textContent = p.name; });
+  }
+
+  prevBtn.addEventListener('click', function () {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+  });
+  nextBtn.addEventListener('click', function () {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+  });
+  render();
+})();
 """
     write("/assets/site.js", site_js)
 

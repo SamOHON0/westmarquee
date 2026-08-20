@@ -4,6 +4,10 @@
 DOMAIN = "https://westmarqueesandinflatables.ie"
 BUSINESS_ID = "cb395296-bd08-492a-a0fa-162f5fe5227b"
 PARTYOPS = "https://partyops.app"
+# Home-page availability calendar. PartyOps reports price_on_request items
+# as unavailable, so leave this False until real prices are loaded, or every
+# date will read as nothing free.
+AVAILABILITY_CALENDAR = True
 PHONE = "085 269 6628"
 PHONE_INTL = "+353852696628"
 EMAIL = "westmarqueesandinflatables@gmail.com"

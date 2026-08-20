@@ -92,19 +92,27 @@
 </section>
 <div class="trustband"><div class="wrap"><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Fully insured</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Delivered &amp; set up</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Cleaned between hires</span><span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Day, midweek &amp; weekend hire</span></div></div>
 
+<!-- Date-first availability. Pick a day, see what is free on it, live from
+     PartyOps. Items marked price_on_request come back from the API as
+     unavailable, so until Hugh's prices are loaded this shows the empty
+     state by design rather than a wrong answer. -->
 <div class="wrap">
-  <div class="checker" data-reveal>
-    <h3>Check your area</h3>
-    <p>We cover Galway, Mayo, Roscommon, Clare and Limerick from our base in Oranmore.</p>
-    <div class="checker-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your town...</option>
-        <option value="galway">Galway City</option><option value="galway">Oranmore</option><option value="galway">Athenry</option><option value="galway">Tuam</option><option value="galway">Loughrea</option><option value="galway">Gort</option><option value="galway">Claregalway</option><option value="galway">Barna</option><option value="galway">Moycullen</option><option value="galway">Headford</option><option value="mayo">Castlebar</option><option value="mayo">Westport</option><option value="mayo">Ballina</option><option value="mayo">Claremorris</option><option value="mayo">Ballinrobe</option><option value="mayo">Swinford</option><option value="mayo">Kiltimagh</option><option value="roscommon">Roscommon Town</option><option value="roscommon">Boyle</option><option value="roscommon">Castlerea</option><option value="roscommon">Ballaghaderreen</option><option value="roscommon">Strokestown</option><option value="roscommon">Athleague</option><option value="clare">Ennis</option><option value="clare">Shannon</option><option value="clare">Ennistymon</option><option value="clare">Kilrush</option><option value="clare">Sixmilebridge</option><option value="clare">Newmarket-on-Fergus</option><option value="limerick">Limerick City</option><option value="limerick">Newcastle West</option><option value="limerick">Adare</option><option value="limerick">Annacotty</option><option value="limerick">Castletroy</option><option value="limerick">Caherdavin</option>
-        <option value="__other__">My town isn't listed</option>
-      </select>
-      <button class="btn btn-green" id="areaBtn">Check my area</button>
+  <div class="avail" id="availability" data-reveal>
+    <h3>Pick your date, see what&rsquo;s free</h3>
+    <p>Tap a day to see everything available on it, straight from our booking system.</p>
+    <div class="avail-wrap">
+      <div class="avail-cal">
+        <div class="avail-cal-head">
+          <button class="avail-nav" id="avPrev" type="button" aria-label="Previous month">&#8249;</button>
+          <b id="avMonth"></b>
+          <button class="avail-nav" id="avNext" type="button" aria-label="Next month">&#8250;</button>
+        </div>
+        <div class="avail-grid" id="avGrid"></div>
+      </div>
+      <div class="avail-result" id="avResult">
+        <div class="avail-hint">Pick a day on the calendar to see what&rsquo;s free.</div>
+      </div>
     </div>
-    <div id="areaOut"></div>
   </div>
 </div>
 
@@ -217,6 +225,22 @@
     </div>
   </div>
 </section>
+
+<div class="wrap">
+  <div class="checker checker-inline" data-reveal>
+    <h3>Check your area</h3>
+    <p>We cover Galway, Mayo, Roscommon, Clare and Limerick from our base in Oranmore.</p>
+    <div class="checker-row">
+      <select id="areaSel" aria-label="Select your area">
+        <option value="">Select your town...</option>
+        <option value="galway">Galway City</option><option value="galway">Oranmore</option><option value="galway">Athenry</option><option value="galway">Tuam</option><option value="galway">Loughrea</option><option value="galway">Gort</option><option value="galway">Claregalway</option><option value="galway">Barna</option><option value="galway">Moycullen</option><option value="galway">Headford</option><option value="mayo">Castlebar</option><option value="mayo">Westport</option><option value="mayo">Ballina</option><option value="mayo">Claremorris</option><option value="mayo">Ballinrobe</option><option value="mayo">Swinford</option><option value="mayo">Kiltimagh</option><option value="roscommon">Roscommon Town</option><option value="roscommon">Boyle</option><option value="roscommon">Castlerea</option><option value="roscommon">Ballaghaderreen</option><option value="roscommon">Strokestown</option><option value="roscommon">Athleague</option><option value="clare">Ennis</option><option value="clare">Shannon</option><option value="clare">Ennistymon</option><option value="clare">Kilrush</option><option value="clare">Sixmilebridge</option><option value="clare">Newmarket-on-Fergus</option><option value="limerick">Limerick City</option><option value="limerick">Newcastle West</option><option value="limerick">Adare</option><option value="limerick">Annacotty</option><option value="limerick">Castletroy</option><option value="limerick">Caherdavin</option>
+        <option value="__other__">My town isn't listed</option>
+      </select>
+      <button class="btn btn-green" id="areaBtn">Check my area</button>
+    </div>
+    <div id="areaOut"></div>
+  </div>
+</div>
 
 <section class="sec">
   <div class="wrap">

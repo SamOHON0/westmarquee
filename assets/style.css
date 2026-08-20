@@ -225,6 +225,50 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(253,250,242,.94);bac
 .checker-row select{flex:1;min-width:180px;font-family:inherit;font-size:15px;font-weight:600;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--r-sm);background:var(--bg);color:var(--ink)}
 .checker-row select:focus{outline:none;border-color:var(--green)}
 #areaOut{font-size:14.5px;margin-top:10px;font-weight:800;min-height:20px}
+/* Same card, but sitting inside the page flow rather than pulled up over the
+   hero. Used where the checker follows other sections. */
+.checker-inline{margin-top:0;margin-bottom:64px}
+
+/* availability calendar (home) */
+.avail{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:26px 28px;margin-top:-42px;position:relative;z-index:10}
+.avail > h3{font-size:19px;color:var(--green-deep);margin-bottom:4px}
+.avail > p{font-size:14px;color:var(--ink-soft);font-weight:600;margin-bottom:18px}
+.avail-wrap{display:grid;gap:22px;grid-template-columns:minmax(260px,320px) 1fr;align-items:start}
+.avail-cal{background:var(--bg);border:1px solid var(--line);border-radius:var(--r-sm);padding:14px}
+.avail-cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.avail-cal-head b{font-size:15.5px;color:var(--ink)}
+.avail-nav{width:32px;height:32px;border-radius:9px;border:1.5px solid var(--line);background:#fff;color:var(--green-deep);font-size:16px;font-weight:800;cursor:pointer;line-height:1}
+.avail-nav:hover:not(:disabled){border-color:var(--green);color:var(--green)}
+.avail-nav:disabled{opacity:.32;cursor:default}
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.avail-dow{text-align:center;font-size:10.5px;font-weight:800;color:var(--ink-faint);padding:4px 0;text-transform:uppercase;letter-spacing:.04em}
+.avail-day{aspect-ratio:1;border:none;border-radius:9px;background:#fff;color:var(--ink);font-family:inherit;font-weight:700;font-size:13.5px;cursor:pointer;transition:background .14s,color .14s}
+.avail-day:hover:not(:disabled):not(.blank){background:var(--green-tint)}
+.avail-day.sel{background:var(--green);color:#fff}
+.avail-day:disabled{background:transparent;color:#c3ccc7;cursor:default}
+.avail-day.blank{background:transparent;cursor:default}
+.avail-result{min-height:190px}
+.avail-hint,.avail-err,.avail-load{border-radius:var(--r-sm);padding:22px;font-weight:600;font-size:14.5px}
+.avail-hint{background:var(--green-tint);color:var(--green-deep)}
+.avail-err{background:#fdecE7;color:#a8331a}
+.avail-err a{color:inherit;text-decoration:underline}
+.avail-load{color:var(--ink-soft);text-align:center}
+.avail-date-label{font-size:16.5px;font-weight:800;color:var(--ink)}
+.avail-count{font-size:13px;color:var(--ink-soft);font-weight:700;margin:2px 0 10px}
+.avail-list{display:grid;gap:9px;max-height:340px;overflow:auto}
+.avail-item{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 11px}
+.avail-item img,.avail-noimg{width:50px;height:50px;flex:none;object-fit:cover;border-radius:9px;background:var(--surface)}
+.avail-meta{min-width:0}
+.avail-item .nm{font-weight:800;color:var(--ink);font-size:14px;line-height:1.25}
+.avail-item .pr{font-size:13px;font-weight:800;color:var(--green)}
+.avail-item .pr-req{color:var(--ink-faint);font-weight:700}
+.avail-item .bk{margin-left:auto;flex:none;background:var(--amber);color:var(--ink);font-weight:800;font-size:13px;padding:8px 16px;border-radius:99px;white-space:nowrap}
+.avail-item .bk:hover{background:var(--amber-deep);color:#fff}
+@media(max-width:860px){
+  .avail{padding:22px 18px}
+  .avail-wrap{grid-template-columns:1fr}
+  .avail-result{min-height:0}
+}
 
 /* areas grid */
 .areas-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
