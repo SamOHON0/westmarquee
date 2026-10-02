@@ -64,6 +64,10 @@ PRODUCTS = [
          tag="4 metres", size="4m board", ages="6+", img="2026/04/home-foot-dart-board.jpg",
          short="Football meets darts on a giant 4 metre board.",
          long="Football meets darts on a giant 4 metre inflatable board. Kick the velcro footballs and aim for a perfect 180. Brilliant for communions, confirmations, birthdays and corporate days, and it works for all ages and abilities."),
+    dict(slug="penalty-shootout", name="Penalty Shootout", cat="games",
+         tag="New", size="Ask us", ages="All ages", img="/assets/img/penalty-shootout.jpg",
+         short="An inflatable goal with a diving keeper and scoring targets: pick your corner and beat him.",
+         long="The newest addition to our games range. The inflatable Penalty Shootout gives everyone a go at scoring the winning penalty, from small kids to the grown ups who think they still have it. A great crowd puller at communions, birthdays, GAA and soccer club fun days and corporate events, and it pairs perfectly with the Foot Dart Board. Competitively priced, contact us for a quote."),
 ]
 
 CATS = dict(
@@ -120,7 +124,7 @@ REVIEWS = [
 
 FAQS = [
     ("What can I hire?",
-     "A wide range of inflatables and event hire: 55ft obstacle courses (Danger Zone, Military Assault, Drop Zone), the Disco obstacle course, combi bouncy castles in Princess, Barbie, Paw Patrol and Spiderman themes, the 4M Foot Dart Board, marquees and the unique Pub Inflatable."),
+     "A wide range of inflatables and event hire: 55ft obstacle courses (Danger Zone, Military Assault, Drop Zone), the Disco obstacle course, combi bouncy castles in Princess, Barbie, Paw Patrol and Spiderman themes, the 4M Foot Dart Board, the Penalty Shootout, marquees and the unique Pub Inflatable."),
     ("What areas do you cover?",
      "We cover the west of Ireland: Galway, Mayo, Roscommon, Clare and Limerick. Based in Oranmore, Co Galway, we regularly serve Galway City, Athenry, Tuam, Loughrea, Castlebar, Westport, Ballina, Roscommon town, Ennis and Limerick City."),
     ("How do I book?",
@@ -130,7 +134,7 @@ FAQS = [
     ("What do I need for setup?",
      "A flat area big enough for the unit with at least 1.5 metres of clear space on all sides, clear access to the site, and a standard plug socket nearby for the blower. If you are unsure about your space, send us a photo on WhatsApp and we will tell you straight away."),
     ("Can I hire a party package?",
-     "Yes. We offer day, midweek and weekend hire, and we are happy to build a package. Combine an obstacle course with a combi castle, add the Foot Dart Board, or pair a marquee with the Pub Inflatable."),
+     "Yes. We offer day, midweek and weekend hire, and we are happy to build a package. Combine an obstacle course with a combi castle, add the Foot Dart Board or Penalty Shootout, or pair a marquee with the Pub Inflatable."),
     ("What happens if it rains?",
      "Most of our castles have rain covers and light rain is no problem. In high winds or severe weather we will work with you to rearrange, we never leave you stuck."),
 ]

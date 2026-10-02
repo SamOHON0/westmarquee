@@ -44,7 +44,7 @@ def build_home():
   <a href="/hire/?cat=castle"><img src="{IMG}2026/05/combi-bouncy-castles-for-hire.png" alt="Combi bouncy castle hire" loading="lazy"><div class="lab"><h3>Combi Castles</h3><span>Princess, Barbie, Paw Patrol, Spiderman</span></div></a>
   <a href="/hire/marquee-hire/"><img src="{IMG}2026/04/marquees-galway-for-hire-rent.jpg" alt="Marquee hire" loading="lazy"><div class="lab"><h3>Marquees</h3><span>Weddings, parties &amp; events</span></div></a>
   <a href="/hire/pub-inflatable/"><img src="{IMG}2026/05/pub-home.jpg" alt="The Pub Inflatable" loading="lazy"><div class="lab"><h3>The Pub Inflatable</h3><span>Our signature piece</span></div></a>
-  <a href="/hire/foot-dart-board/"><img src="{IMG}2026/04/home-foot-dart-board.jpg" alt="Foot darts hire" loading="lazy"><div class="lab"><h3>Foot Darts</h3><span>Giant 4 metre board</span></div></a>
+  <a href="/hire/?cat=games"><img src="{IMG}2026/04/home-foot-dart-board.jpg" alt="Inflatable games hire" loading="lazy"><div class="lab"><h3>Inflatable Games</h3><span>Foot darts &amp; penalty shootout</span></div></a>
 </div>"""
 
     featured = "".join(product_card(p) for p in [PRODUCTS[0], PRODUCTS[3], PRODUCTS[4], PRODUCTS[10], PRODUCTS[9], PRODUCTS[11]])
@@ -209,7 +209,7 @@ def build_products():
 <section class="sec">
   <div class="wrap">
     <div class="pd">
-      <div class="img"><img src="{IMG}{p['img']}" alt="{html.escape(p['name'])}" loading="eager"></div>
+      <div class="img"><img src="{img_url(p)}" alt="{html.escape(p['name'])}" loading="eager"></div>
       <div>
         <h2>About this unit</h2>
         <p class="desc">{p['long']}</p>
@@ -234,7 +234,7 @@ def build_products():
         write(f"/hire/{p['slug']}/index.html", head(
             f"{p['name']} Hire, Galway & the West | West Marquees and Inflatables",
             f"{p['short']} Delivered and set up across Galway, Mayo, Roscommon, Clare and Limerick. Check dates and book online.",
-            f"/hire/{p['slug']}/", og_image=f"{IMG}{p['img']}") + body)
+            f"/hire/{p['slug']}/", og_image=img_url(p, absolute=True)) + body)
 
 # ------------------------------------------------------------------ book -----
 def build_book():
@@ -340,7 +340,7 @@ def build_areas():
     <div class="split">
       <div>
         <h2>What you can hire in {t['name']}</h2>
-        <p>The full West Marquees range is available in {t['name']}: 55ft obstacle courses, themed combi castles, the 4M foot dart board, marquees and the Pub Inflatable. Delivery, setup and collection included.</p>
+        <p>The full West Marquees range is available in {t['name']}: 55ft obstacle courses, themed combi castles, the 4M foot dart board, the penalty shootout, marquees and the Pub Inflatable. Delivery, setup and collection included.</p>
         <ul class="checks">
           <li>{CHECK_SVG}Fully insured, cleaned between every hire</li>
           <li>{CHECK_SVG}Book online</li>

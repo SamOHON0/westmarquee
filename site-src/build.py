@@ -190,10 +190,16 @@ def page_hero(title, sub, crumbs=None, img=None):
 <div class="stripe" aria-hidden="true"></div>
 """
 
+def img_url(p, absolute=False):
+    """Product images are WordPress paths unless they start with "/" (local asset)."""
+    if p["img"].startswith("/"):
+        return (DOMAIN if absolute else "") + p["img"]
+    return IMG + p["img"]
+
 def product_card(p):
     return f"""
 <a class="pcard" href="/hire/{p['slug']}/" data-cat="{p['cat']}" data-reveal>
-  <div class="pcard-img"><span class="pcard-tag">{p['tag']}</span><img src="{IMG}{p['img']}" alt="{html.escape(p['name'])}" loading="lazy"></div>
+  <div class="pcard-img"><span class="pcard-tag">{p['tag']}</span><img src="{img_url(p)}" alt="{html.escape(p['name'])}" loading="lazy"></div>
   <div class="pcard-body">
     <h3>{p['name']}</h3>
     <p>{p['short']}</p>
