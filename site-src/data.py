@@ -4,16 +4,17 @@
 DOMAIN = "https://westmarqueesandinflatables.ie"
 BUSINESS_ID = "cb395296-bd08-492a-a0fa-162f5fe5227b"
 PARTYOPS = "https://partyops.app"
-# Home-page availability calendar. PartyOps reports price_on_request items
-# as unavailable, so leave this False until real prices are loaded, or every
-# date will read as nothing free.
+# Home-page availability calendar. PartyOps shows price_on_request items as
+# available with "Price on request", so this works without prices loaded.
 AVAILABILITY_CALENDAR = True
 PHONE = "085 269 6628"
 PHONE_INTL = "+353852696628"
 EMAIL = "westmarqueesandinflatables@gmail.com"
 WHATSAPP = "https://wa.me/353852696628?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20hire."
 FACEBOOK = "https://www.facebook.com/people/West-Marquees-and-Inflatables/61552761500676/"
-IMG = "https://westmarqueesandinflatables.ie/wp-content/uploads/"
+# Copies of the old WordPress uploads, kept in the repo so the photos survive
+# the domain move off the old site.
+IMG = "/assets/img/wp/"
 
 PRODUCTS = [
     dict(slug="danger-zone-obstacle-course", name="Danger Zone Obstacle Course", cat="obstacle",

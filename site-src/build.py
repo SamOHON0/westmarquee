@@ -57,7 +57,7 @@ NAV_ITEMS = [
 ]
 
 def head(title, desc, path, og_image=None, extra=""):
-    og_image = og_image or f"{IMG}2026/05/pub-home.jpg"
+    og_image = og_image or f"{DOMAIN}{IMG}2026/05/pub-home.jpg"
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -85,7 +85,7 @@ def head(title, desc, path, og_image=None, extra=""):
   "url":"{DOMAIN}/",
   "telephone":"{PHONE_INTL}",
   "email":"{EMAIL}",
-  "image":"{IMG}2026/05/pub-home.jpg",
+  "image":"{DOMAIN}{IMG}2026/05/pub-home.jpg",
   "description":"Local hire of obstacle courses, combi bouncy castles, foot darts, marquees and the unique Pub Inflatable across Galway, Mayo, Roscommon, Clare and Limerick. Fully insured.",
   "address":{{"@type":"PostalAddress","addressLocality":"Oranmore","addressRegion":"Co Galway","addressCountry":"IE"}},
   "areaServed":["Galway","Mayo","Roscommon","Clare","Limerick"]
@@ -191,10 +191,9 @@ def page_hero(title, sub, crumbs=None, img=None):
 """
 
 def img_url(p, absolute=False):
-    """Product images are WordPress paths unless they start with "/" (local asset)."""
-    if p["img"].startswith("/"):
-        return (DOMAIN if absolute else "") + p["img"]
-    return IMG + p["img"]
+    """Product images are old WordPress upload paths (served from IMG) unless they start with "/"."""
+    path = p["img"] if p["img"].startswith("/") else IMG + p["img"]
+    return (DOMAIN if absolute else "") + path
 
 def product_card(p):
     return f"""
