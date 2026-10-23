@@ -163,7 +163,7 @@ def footer():
 <a href="{WHATSAPP}" target="_blank" rel="noopener" class="wa-float" aria-label="Chat on WhatsApp">{WA_SVG}</a>
 <div class="cookiebar" id="cookiebar">
   <p>We use essential cookies to make this site work. See our <a href="/privacy/">privacy notice</a>.</p>
-  <button class="btn btn-green" id="cookieOk">Grand, got it</button>
+  <button class="btn btn-green" id="cookieOk">Got it</button>
 </div>
 <script src="/assets/site.js" defer></script>
 <script src="{PARTYOPS}/price-sync.js" data-business-id="{BUSINESS_ID}" defer></script>

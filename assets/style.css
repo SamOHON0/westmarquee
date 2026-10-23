@@ -290,6 +290,12 @@ header.nav{position:sticky;top:0;z-index:60;background:rgba(253,250,242,.94);bac
 .pd{display:grid;grid-template-columns:1.02fr .98fr;gap:46px;align-items:start}
 .pd .img{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lift);position:sticky;top:96px}
 .pd .img img{width:100%;object-fit:cover;aspect-ratio:4/3}
+.pd .gal{overflow:visible;box-shadow:none;border-radius:0}
+.pd .gal .main{border-radius:var(--r);box-shadow:var(--shadow-lift);aspect-ratio:16/10;background:#fff}
+.thumbs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.thumbs button{width:84px;height:64px;padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;cursor:pointer;background:#fff;opacity:.75;transition:opacity .2s,border-color .2s}
+.thumbs button:hover,.thumbs button.on{opacity:1;border-color:var(--green)}
+.thumbs img{width:100%;height:100%;object-fit:cover;aspect-ratio:auto}
 .pd h2{font-size:clamp(24px,3vw,32px);margin-bottom:12px}
 .pd .desc{color:var(--ink-soft);font-weight:600;margin-bottom:18px}
 .spec{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:22px 0}

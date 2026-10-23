@@ -67,6 +67,17 @@ document.querySelectorAll('.faq-q').forEach(function (q) {
   });
 });
 
+/* product photo gallery: thumbnails swap the main photo */
+document.querySelectorAll('.pd .gal').forEach(function (g) {
+  var main = g.querySelector('.main');
+  g.querySelectorAll('.thumbs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      main.src = b.dataset.src;
+      g.querySelectorAll('.thumbs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
+  });
+});
+
 /* cookie notice */
 try {
   if (!localStorage.getItem('wm-cookie-ok')) document.getElementById('cookiebar').classList.add('show');

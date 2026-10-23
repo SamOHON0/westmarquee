@@ -203,13 +203,23 @@ def build_products():
         if len(others) < 3:
             others += [q for q in PRODUCTS if q["cat"] != p["cat"] and q not in others][: 3 - len(others)]
         related = "".join(product_card(q) for q in others)
+        name = html.escape(p["name"])
+        if p.get("gallery"):
+            thumbs = "".join(
+                f'<button type="button" data-src="{src}" aria-label="Show photo {i} of {name}"{" class=on" if i == 1 else ""}>'
+                f'<img src="{src}" alt="" loading="lazy"></button>'
+                for i, src in enumerate([img_url(p)] + p["gallery"], 1))
+            media = (f'<div class="img gal"><img class="main" src="{img_url(p)}" alt="{name}" loading="eager">'
+                     f'<div class="thumbs">{thumbs}</div></div>')
+        else:
+            media = f'<div class="img"><img src="{img_url(p)}" alt="{name}" loading="eager"></div>'
         body = f"""
 {navbar("/hire/")}
 {page_hero(p["name"], p["short"], crumbs=[("/", "Home"), ("/hire/", "The Range"), (None, p["name"])])}
 <section class="sec">
   <div class="wrap">
     <div class="pd">
-      <div class="img"><img src="{img_url(p)}" alt="{html.escape(p['name'])}" loading="eager"></div>
+      {media}
       <div>
         <h2>About this unit</h2>
         <p class="desc">{p['long']}</p>
@@ -582,6 +592,17 @@ document.querySelectorAll('.faq-q').forEach(function (q) {
     var item = q.parentElement, a = item.querySelector('.faq-a'), open = item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(function (i) { i.classList.remove('open'); i.querySelector('.faq-a').style.maxHeight = null; });
     if (!open) { item.classList.add('open'); a.style.maxHeight = a.scrollHeight + 'px'; }
+  });
+});
+
+/* product photo gallery: thumbnails swap the main photo */
+document.querySelectorAll('.pd .gal').forEach(function (g) {
+  var main = g.querySelector('.main');
+  g.querySelectorAll('.thumbs button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      main.src = b.dataset.src;
+      g.querySelectorAll('.thumbs button').forEach(function (x) { x.classList.toggle('on', x === b); });
+    });
   });
 });
 
