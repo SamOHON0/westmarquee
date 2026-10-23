@@ -166,6 +166,7 @@ def footer():
   <button class="btn btn-green" id="cookieOk">Got it</button>
 </div>
 <script src="/assets/site.js" defer></script>
+<script src="/enquiry.js" defer></script>
 <script src="{PARTYOPS}/price-sync.js" data-business-id="{BUSINESS_ID}" defer></script>
 </body>
 </html>

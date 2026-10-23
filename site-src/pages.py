@@ -457,10 +457,9 @@ def build_contact():
         <p style="margin-top:18px;font-weight:700;color:var(--ink-soft)">Booking a specific unit for a specific date? The fastest route is the <a href="/book/" style="color:var(--green);text-decoration:underline">online booking page</a>.</p>
       </div>
       <!-- FormSubmit: enquiries go to Sam pre-launch. At handover swap the address for {EMAIL} and Hugh clicks the one-time activation link on first submission. -->
-      <form class="enquiry" action="https://formsubmit.co/samohigginsemail@gmail.com" method="POST">
+      <form class="enquiry" action="https://squaretwo.ie/api/enquiry?site=westmarquees" method="POST">
         <input type="hidden" name="_subject" value="Website enquiry: West Marquees and Inflatables">
         <input type="hidden" name="_next" value="{DOMAIN}/contact/thanks/">
-        <input type="hidden" name="_captcha" value="false">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">
         <div class="fld"><label for="n">Your name</label><input id="n" name="name" type="text" required></div>
         <div class="fld"><label for="p">Phone</label><input id="p" name="phone" type="tel" required></div>
