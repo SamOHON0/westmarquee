@@ -198,7 +198,7 @@ def img_url(p, absolute=False):
 def product_card(p):
     return f"""
 <a class="pcard" href="/hire/{p['slug']}/" data-cat="{p['cat']}" data-reveal>
-  <div class="pcard-img"><span class="pcard-tag">{p['tag']}</span><img src="{img_url(p)}" alt="{html.escape(p['name'])}" loading="lazy"></div>
+  <div class="pcard-img"><span class="pcard-tag">{p['tag']}</span><img src="{p.get('card') or img_url(p)}" alt="{html.escape(p['name'])}" loading="lazy"></div>
   <div class="pcard-body">
     <h3>{p['name']}</h3>
     <p>{p['short']}</p>

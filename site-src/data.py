@@ -35,16 +35,19 @@ PRODUCTS = [
          long="Our most requested unit, and for good reason. The Disco course packs tunnels, bish bash obstacles, climb walls and a big slide into 44ft, and it suits everyone from age 2 up to 14. With over 40 themes available there is a version for every party."),
     dict(slug="crazy-croc-obstacle-course", name="Crazy Croc Obstacle Course", cat="obstacle",
          tag="New", size="45ft x 10ft, 8ft slide", ages="Ask us", img="/assets/img/crazy-croc-obstacle-course.jpg",
+         card="/assets/img/crazy-croc-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
          gallery=["/assets/img/gallery/crazy-croc-obstacle-course-1.jpg", "/assets/img/gallery/crazy-croc-obstacle-course-2.jpg", "/assets/img/gallery/crazy-croc-obstacle-course-3.jpg"],
          short="A 45ft crocodile course: in through the jaws, over the obstacles and down an 8ft slide.",
          long="Brand new for this season. The Crazy Croc is 45ft by 10ft, and kids run in through the crocodile's jaws, push through the pop-up obstacles and tunnels, then climb up and over the 8ft slide. Bright, colourful and a real head turner at birthdays, communions and school fun days. Competitively priced, contact us for a quote."),
     dict(slug="power-up-obstacle-course", name="Power-Up Obstacle Course", cat="obstacle",
          tag="New", size="40ft x 10ft, 7ft slide", ages="Ask us", img="/assets/img/power-up-obstacle-course.jpg",
+         card="/assets/img/power-up-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
          gallery=["/assets/img/gallery/power-up-obstacle-course-1.jpg", "/assets/img/gallery/power-up-obstacle-course-2.jpg"],
          short="A 40ft gamer-themed course with pop-up obstacles, a climb wall and a 7ft slide.",
          long="Brand new for this season and made for gamers. The Power-Up course is 40ft by 10ft in neon controller graphics, with pop-up obstacles, a climbing wall and a 7ft slide to finish. A great fit for birthdays where the kids would normally be glued to a console. Competitively priced, contact us for a quote."),
     dict(slug="active-adventure-obstacle-course", name="Active Adventure Obstacle Course", cat="obstacle",
          tag="New", size="45ft x 10ft, 8ft slide", ages="Ask us", img="/assets/img/active-adventure-obstacle-course.jpg",
+         card="/assets/img/active-adventure-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
          gallery=["/assets/img/gallery/active-adventure-obstacle-course-1.jpg", "/assets/img/gallery/active-adventure-obstacle-course-2.jpg", "/assets/img/gallery/active-adventure-obstacle-course-3.jpg", "/assets/img/gallery/active-adventure-obstacle-course-4.jpg"],
          short="A colourful 45ft course with tunnels, pop-up obstacles and an 8ft slide.",
          long="Brand new for this season. The Active Adventure course is 45ft by 10ft of tunnels, pop-up obstacles and a climb up to an 8ft slide, all in bright party colours. Ideal for birthdays, communions, school sports days and club fun days. Competitively priced, contact us for a quote."),
