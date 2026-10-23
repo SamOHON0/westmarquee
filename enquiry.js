@@ -1,28 +1,29 @@
-/* Enquiry form. Posts to SquareTwo's enquiry service (squaretwo.ie/api/enquiry),
-   which emails it to the business. This shows the result next to the form
-   instead of leaving the page. Without JavaScript the form still posts and
-   the service sends the visitor back here with ?enquiry=sent. */
+/* Enquiry form -> WhatsApp handoff (23 Oct 2026). While SquareTwo's enquiry
+   service is paused, the form opens WhatsApp to the business with the
+   details filled in, and the visitor presses send. WA is set per site. */
 (function () {
+  var WA = '353852696628';
   var forms = document.querySelectorAll('form[action*="squaretwo.ie/api/enquiry"]');
   Array.prototype.forEach.call(forms, function (f) {
-    function note(ok) {
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var lines = [];
+      new FormData(f).forEach(function (v, k) {
+        v = String(v).trim();
+        if (!v || k.charAt(0) === '_') return;
+        var el = f.querySelector('[name="' + k + '"]');
+        var lab = el && el.id && f.querySelector('label[for="' + el.id + '"]');
+        var name = lab ? lab.textContent.trim() : k.replace(/[_-]+/g, ' ').replace(/^\w/, function (c) { return c.toUpperCase(); });
+        lines.push(name + ': ' + v);
+      });
+      if (!lines.length) return;
+      window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent('Website enquiry\n' + lines.join('\n')), '_blank', 'noopener');
       var p = f.querySelector('.enquiry-note') || document.createElement('p');
       p.className = 'enquiry-note';
       p.setAttribute('role', 'status');
-      p.style.cssText = 'margin:14px 0 0;font-weight:600;color:' + (ok ? '#15803d' : '#b91c1c');
-      p.textContent = ok ? 'Thanks, your enquiry has been sent. We will be in touch soon.'
-                         : 'Sorry, that did not send. Please ring us instead.';
+      p.style.cssText = 'margin:14px 0 0;font-weight:600;color:#15803d';
+      p.textContent = 'WhatsApp is opening with your enquiry. Press send in WhatsApp and we will be in touch.';
       f.appendChild(p);
-    }
-    if (/[?&]enquiry=sent/.test(location.search)) note(true);
-    f.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var b = f.querySelector('[type=submit], button:not([type])');
-      if (b) b.disabled = true;
-      fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' },
-                        body: new URLSearchParams(new FormData(f)) })
-        .then(function (r) { return r.ok; }, function () { return false; })
-        .then(function (ok) { if (b) b.disabled = false; if (ok) f.reset(); note(ok); });
     });
   });
 })();
