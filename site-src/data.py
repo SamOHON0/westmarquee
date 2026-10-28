@@ -18,19 +18,27 @@ IMG = "/assets/img/wp/"
 
 PRODUCTS = [
     dict(slug="danger-zone-obstacle-course", name="Danger Zone Obstacle Course", cat="obstacle",
-         tag="55ft", size="55ft (16.8m) long", ages="4+", img="2026/04/home-danger-zone.jpg",
+         tag="55ft", size="55ft (16.8m) long", ages="4+", img="/assets/img/danger-zone-obstacle-course.jpg",
+         card="/assets/img/danger-zone-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/danger-zone-obstacle-course-1.jpg", "/assets/img/gallery/danger-zone-obstacle-course-2.jpg", "/assets/img/gallery/danger-zone-obstacle-course-3.jpg"],
          short="Our mammoth 55ft course with Climb Through Wall, Bish Bash Poles and a Giant Slide.",
          long="The Danger Zone is our flagship obstacle course and one of the biggest in the west of Ireland. Fifty five feet of climb through walls, bish bash poles, tunnels and a giant slide finish. It keeps a full party of kids moving for hours, and it photographs brilliantly at fun days, sports club events and big birthdays. Suitable for ages 4 and up."),
     dict(slug="military-assault-course", name="Military Assault Course", cat="obstacle",
-         tag="55ft camo", size="55ft (16.8m) long", ages="4+", img="2026/04/home-military-assault-obstacle-course.jpg",
+         tag="55ft camo", size="55ft (16.8m) long", ages="4+", img="/assets/img/military-assault-course.jpg",
+         card="/assets/img/military-assault-course-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/military-assault-course-1.jpg", "/assets/img/gallery/military-assault-course-2.jpg", "/assets/img/gallery/military-assault-course-3.jpg"],
          short="A 55ft camouflage assault course with tunnels, rope climb, bish bash poles and a giant slide.",
          long="Full camouflage colours and a proper army feel. The Military Assault Course runs 55ft with tunnels, a rope climb, bish bash poles and a giant slide at the end. A favourite for school fun days and communions where you have a crowd of kids to wear out. Ages 4 and up."),
     dict(slug="drop-zone-obstacle-course", name="Drop Zone Obstacle Course", cat="obstacle",
-         tag="52ft, ages 10+", size="52ft x 15ft", ages="10+", img="2026/04/home-dropzone.jpg",
+         tag="52ft, ages 10+", size="52ft x 15ft", ages="10+", img="/assets/img/drop-zone-obstacle-course.jpg",
+         card="/assets/img/drop-zone-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/drop-zone-obstacle-course-1.jpg", "/assets/img/gallery/drop-zone-obstacle-course-2.jpg", "/assets/img/gallery/drop-zone-obstacle-course-3.jpg"],
          short="A massive 52ft x 15ft course with climbing blocks, roller bars, hangers and a jump pad.",
          long="Built for older kids who find the standard castles too tame. The Drop Zone is 52ft by 15ft of climbing blocks, roller bars, hangers and a jump pad. Ideal for confirmations, teen birthdays and club events where you need something with a bit more challenge. Ages 10 and up."),
     dict(slug="disco-obstacle-course", name="Disco Obstacle Course", cat="obstacle",
-         tag="Most popular", size="44ft long", ages="2 to 14", img="2026/05/Disco-Home.png",
+         tag="Most popular", size="44ft long", ages="2 to 14", img="/assets/img/disco-obstacle-course.jpg",
+         card="/assets/img/disco-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/disco-obstacle-course-1.jpg", "/assets/img/gallery/disco-obstacle-course-2.jpg", "/assets/img/gallery/disco-obstacle-course-3.jpg"],
          short="Our most popular 44ft course, packed with tunnels, bish bash, climb walls and a big slide.",
          long="Our most requested unit, and for good reason. The Disco course packs tunnels, bish bash obstacles, climb walls and a big slide into 44ft, and it suits everyone from age 2 up to 14. With over 40 themes available there is a version for every party."),
     dict(slug="crazy-croc-obstacle-course", name="Crazy Croc Obstacle Course", cat="obstacle",
@@ -51,12 +59,20 @@ PRODUCTS = [
          gallery=["/assets/img/gallery/active-adventure-obstacle-course-1.jpg", "/assets/img/gallery/active-adventure-obstacle-course-2.jpg", "/assets/img/gallery/active-adventure-obstacle-course-3.jpg", "/assets/img/gallery/active-adventure-obstacle-course-4.jpg"],
          short="A colourful 45ft course with tunnels, pop-up obstacles and an 8ft slide.",
          long="Brand new for this season. The Active Adventure course is 45ft by 10ft of tunnels, pop-up obstacles and a climb up to an 8ft slide, all in bright party colours. Ideal for birthdays, communions, school sports days and club fun days. Competitively priced, contact us for a quote."),
+    dict(slug="prison-break-obstacle-course", name="Prison Break Obstacle Course", cat="obstacle",
+         tag="New", size="Ask us", ages="Ask us", img="/assets/img/prison-break-obstacle-course.jpg",
+         card="/assets/img/prison-break-obstacle-course-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/prison-break-obstacle-course-1.jpg", "/assets/img/gallery/prison-break-obstacle-course-2.jpg", "/assets/img/gallery/prison-break-obstacle-course-3.jpg"],
+         short="Break out of the jailhouse: in through the prison gates, past the obstacles and down the slide.",
+         long="Brand new for this season. The Prison Break course has a stone-walled jailhouse front with twin arched gates, then pop-up obstacles and a run of bump-through pillars before the climb up to the slide. A great pick for birthdays, communions and school fun days. Competitively priced, contact us for a quote."),
     dict(slug="combi-castle-princess", name="Combi Castle: Princess", cat="castle",
          tag="3D Princess", size="16ft x 15ft", ages="2+", img="2026/05/combi-bouncy-castles-for-hire.png",
          short="Spacious bouncing area, a slide and a huge 3D Princess attachment.",
          long="A spacious bouncing area, a slide and a 3D Princess attachment on top. 16ft by 15ft. One of our most requested units for birthdays and communions."),
     dict(slug="combi-castle-barbie", name="Combi Castle: Barbie", cat="castle",
-         tag="Themed", size="16ft x 15ft", ages="2+", img="2026/05/combi-bouncy-castles-for-hire.png",
+         tag="Themed", size="16ft x 15ft", ages="2+", img="/assets/img/combi-castle-barbie.jpg",
+         card="/assets/img/combi-castle-barbie-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/combi-castle-barbie-1.jpg", "/assets/img/gallery/combi-castle-barbie-2.jpg"],
          short="Bright pink Barbie themed combi with bouncing area and slide.",
          long="Bright pink and impossible to miss. The Barbie combi has a full bouncing area plus a slide, at 16ft by 15ft. It books out fast in summer, so get your date in early."),
     dict(slug="combi-castle-paw-patrol", name="Combi Castle: Paw Patrol", cat="castle",
@@ -72,9 +88,11 @@ PRODUCTS = [
          short="A vibrant rainbow-coloured bouncy castle with slide.",
          long="A vibrant rainbow coloured bouncy castle with a slide and eye catching themes. The Double the Fun castle is the classic garden party pick: bright, roomy and loved by every age group at the party."),
     dict(slug="marquee-hire", name="Marquee Hire", cat="marquee",
-         tag="Any event", size="Sized to your event", ages="Everyone", img="2026/04/marquees-galway-for-hire-rent.jpg",
+         tag="Any event", size="Sized to your event", ages="Everyone", img="/assets/img/marquee-hire.jpg",
+         card="/assets/img/marquee-hire-card.jpg",  # 4:3 framing for cards and PartyOps
+         gallery=["/assets/img/gallery/marquee-hire-1.jpg", "/assets/img/gallery/marquee-hire-2.jpg", "/assets/img/gallery/marquee-hire-3.jpg", IMG + "2026/04/marquees-galway-for-hire-rent.jpg"],
          short="Clean, spacious marquees for weddings, communions, birthdays and corporate events.",
-         long="Clean, spacious marquees professionally set up by our team. We supply marquees for weddings, communions, birthdays, corporate events and everything in between, across the west of Ireland. Tell us your numbers and your venue and we will recommend the right size."),
+         long="Clean, spacious marquees professionally set up by our team. We supply marquees for weddings, communions, birthdays, corporate events and everything in between, across the west of Ireland. Fitted out with dining tables and chairs, or cocktail tables and stools, in whatever layout suits the day, and they can be hired together with our inflatables. Tell us your numbers and your venue and we will recommend the right size."),
     dict(slug="pub-inflatable", name="The Pub Inflatable", cat="pub",
          tag="Signature", size="Ask us", ages="Adults", img="2026/05/pub-home.jpg",
          short="Styled like a traditional Irish pub outside, marquee-style inside.",
@@ -143,7 +161,7 @@ REVIEWS = [
 
 FAQS = [
     ("What can I hire?",
-     "A wide range of inflatables and event hire: 55ft obstacle courses (Danger Zone, Military Assault, Drop Zone), the Disco obstacle course, our new Crazy Croc, Power-Up and Active Adventure courses, combi bouncy castles in Princess, Barbie, Paw Patrol and Spiderman themes, the 4M Foot Dart Board, the Penalty Shootout, marquees and the unique Pub Inflatable."),
+     "A wide range of inflatables and event hire: 55ft obstacle courses (Danger Zone, Military Assault, Drop Zone), the Disco obstacle course, our new Crazy Croc, Power-Up, Active Adventure and Prison Break courses, combi bouncy castles in Princess, Barbie, Paw Patrol and Spiderman themes, the 4M Foot Dart Board, the Penalty Shootout, marquees and the unique Pub Inflatable."),
     ("What areas do you cover?",
      "We cover the west of Ireland: Galway, Mayo, Roscommon, Clare and Limerick. Based in Oranmore, Co Galway, we regularly serve Galway City, Athenry, Tuam, Loughrea, Castlebar, Westport, Ballina, Roscommon town, Ennis and Limerick City."),
     ("How do I book?",
@@ -153,7 +171,7 @@ FAQS = [
     ("What do I need for setup?",
      "A flat area big enough for the unit with at least 1.5 metres of clear space on all sides, clear access to the site, and a standard plug socket nearby for the blower. If you are unsure about your space, send us a photo on WhatsApp and we will tell you straight away."),
     ("Can I hire a party package?",
-     "Yes. We offer day, midweek and weekend hire, and we are happy to build a package. Combine an obstacle course with a combi castle, add the Foot Dart Board or Penalty Shootout, or pair a marquee with the Pub Inflatable."),
+     "Yes. We offer day, midweek and weekend hire, and we are happy to build a package. Combine an obstacle course with a combi castle, add the Foot Dart Board or Penalty Shootout to an obstacle course for as little as €100 extra, or pair a marquee with the Pub Inflatable."),
     ("What happens if it rains?",
      "Most of our castles have rain covers and light rain is no problem. In high winds or severe weather we will work with you to rearrange, we never leave you stuck."),
 ]

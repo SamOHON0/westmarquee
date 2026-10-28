@@ -42,12 +42,15 @@ def build_home():
 <div class="cats">
   <a href="/hire/?cat=obstacle"><img src="{IMG}2026/04/home-danger-zone.jpg" alt="Obstacle course hire" loading="lazy"><div class="lab"><h3>Obstacle Courses</h3><span>Up to 55ft long</span></div></a>
   <a href="/hire/?cat=castle"><img src="{IMG}2026/05/combi-bouncy-castles-for-hire.png" alt="Combi bouncy castle hire" loading="lazy"><div class="lab"><h3>Combi Castles</h3><span>Princess, Barbie, Paw Patrol, Spiderman</span></div></a>
-  <a href="/hire/marquee-hire/"><img src="{IMG}2026/04/marquees-galway-for-hire-rent.jpg" alt="Marquee hire" loading="lazy"><div class="lab"><h3>Marquees</h3><span>Weddings, parties &amp; events</span></div></a>
+  <a href="/hire/marquee-hire/"><img src="/assets/img/marquee-hire-card.jpg" alt="Fitted marquee hire" loading="lazy"><div class="lab"><h3>Marquees</h3><span>Weddings, parties &amp; events</span></div></a>
   <a href="/hire/pub-inflatable/"><img src="{IMG}2026/05/pub-home.jpg" alt="The Pub Inflatable" loading="lazy"><div class="lab"><h3>The Pub Inflatable</h3><span>Our signature piece</span></div></a>
   <a href="/hire/?cat=games"><img src="{IMG}2026/04/home-foot-dart-board.jpg" alt="Inflatable games hire" loading="lazy"><div class="lab"><h3>Inflatable Games</h3><span>Foot darts &amp; penalty shootout</span></div></a>
 </div>"""
 
-    featured = "".join(product_card(p) for p in [PRODUCTS[0], PRODUCTS[3], PRODUCTS[4], PRODUCTS[10], PRODUCTS[9], PRODUCTS[11]])
+    by_slug = {p["slug"]: p for p in PRODUCTS}
+    featured = "".join(product_card(by_slug[k]) for k in [
+        "danger-zone-obstacle-course", "disco-obstacle-course", "crazy-croc-obstacle-course",
+        "combi-castle-spiderman", "combi-castle-paw-patrol", "double-the-fun-castle"])
 
     county_opts = "".join(f'<option value="{c["slug"]}">{t}</option>'
                           for c in COUNTIES for t in c["towns"])
@@ -94,6 +97,27 @@ def build_home():
     </div>
     <div class="grid-cards">{featured}</div>
     <div style="text-align:center;margin-top:36px"><a href="/hire/" class="btn btn-line">View the full range</a></div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="split">
+      <div class="img" data-reveal><img src="/assets/img/bundle-the-fun.jpg" alt="Add an inflatable game for as little as &euro;100 extra when booking your obstacle course: Football Shoot Out and Giant Foot Darts" loading="lazy" style="aspect-ratio:auto"></div>
+      <div data-reveal>
+        <h2>Bundle the fun</h2>
+        <p>Booking an obstacle course? Add an inflatable game for as little as &euro;100 extra and give the grown ups something to queue for too.</p>
+        <ul class="checks">
+          <li>{CHECK_SVG}<span><a href="/hire/penalty-shootout/">Penalty Shootout</a>: beat the diving keeper</span></li>
+          <li>{CHECK_SVG}<span><a href="/hire/foot-dart-board/">Giant Foot Darts</a>: kick for a 180 on a 4 metre board</span></li>
+          <li>{CHECK_SVG}Delivered and set up with your course on the day</li>
+        </ul>
+        <div class="acts">
+          <a href="/hire/?cat=obstacle" class="btn btn-green">Pick your obstacle course</a>
+          <a href="/contact/" class="btn btn-line">Ask about a bundle</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
