@@ -480,7 +480,7 @@ def build_contact():
         </div>
         <p style="margin-top:18px;font-weight:700;color:var(--ink-soft)">Booking a specific unit for a specific date? The fastest route is the <a href="/book/" style="color:var(--green);text-decoration:underline">online booking page</a>.</p>
       </div>
-      <form class="enquiry" action="https://squaretwo.ie/api/enquiry?site=westmarquees" method="POST">
+      <form class="enquiry" action="https://formspree.io/f/mwllqavp" method="POST">
         <input type="hidden" name="_subject" value="Website enquiry: West Marquees and Inflatables">
         <input type="hidden" name="_next" value="{DOMAIN}/contact/thanks/">
         <input type="text" name="_honey" style="display:none" tabindex="-1" autocomplete="off">

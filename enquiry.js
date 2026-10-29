@@ -1,29 +1,30 @@
-/* Enquiry form -> WhatsApp handoff (23 Oct 2026). While SquareTwo's enquiry
-   service is paused, the form opens WhatsApp to the business with the
-   details filled in, and the visitor presses send. WA is set per site. */
+/* Enquiry form. Posts to Formspree (formspree.io/f/<id>), which emails it to
+   the business. This shows the result next to the form instead of leaving the
+   page. Without JavaScript the form still posts and Formspree shows its own
+   thank-you page. _honey is our old honeypot name, sent on as Formspree's
+   _gotcha so bots that fill it are dropped. */
 (function () {
-  var WA = '353852696628';
-  var forms = document.querySelectorAll('form[action*="squaretwo.ie/api/enquiry"]');
+  var forms = document.querySelectorAll('form[action*="formspree.io/f/"]');
   Array.prototype.forEach.call(forms, function (f) {
-    f.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var lines = [];
-      new FormData(f).forEach(function (v, k) {
-        v = String(v).trim();
-        if (!v || k.charAt(0) === '_') return;
-        var el = f.querySelector('[name="' + k + '"]');
-        var lab = el && el.id && f.querySelector('label[for="' + el.id + '"]');
-        var name = lab ? lab.textContent.trim() : k.replace(/[_-]+/g, ' ').replace(/^\w/, function (c) { return c.toUpperCase(); });
-        lines.push(name + ': ' + v);
-      });
-      if (!lines.length) return;
-      window.open('https://wa.me/' + WA + '?text=' + encodeURIComponent('Website enquiry\n' + lines.join('\n')), '_blank', 'noopener');
+    function note(ok) {
       var p = f.querySelector('.enquiry-note') || document.createElement('p');
       p.className = 'enquiry-note';
       p.setAttribute('role', 'status');
-      p.style.cssText = 'margin:14px 0 0;font-weight:600;color:#15803d';
-      p.textContent = 'WhatsApp is opening with your enquiry. Press send in WhatsApp and we will be in touch.';
+      p.style.cssText = 'margin:14px 0 0;font-weight:600;color:' + (ok ? '#15803d' : '#b91c1c');
+      p.textContent = ok ? 'Thanks, your enquiry has been sent. We will be in touch soon.'
+                         : 'Sorry, that did not send. Please ring us instead.';
       f.appendChild(p);
+    }
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var d = new FormData(f);
+      if (d.has('_honey')) { d.set('_gotcha', d.get('_honey')); d.delete('_honey'); }
+      d.delete('_next'); d.delete('_template');
+      var b = f.querySelector('[type=submit], button:not([type])');
+      if (b) b.disabled = true;
+      fetch(f.action, { method: 'POST', headers: { Accept: 'application/json' }, body: d })
+        .then(function (r) { return r.ok; }, function () { return false; })
+        .then(function (ok) { if (b) b.disabled = false; if (ok) f.reset(); note(ok); });
     });
   });
 })();
