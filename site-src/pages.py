@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import json, re
 from build import *
 
 def availability_block():
@@ -322,84 +323,197 @@ def build_areas():
         "West Marquees and Inflatables delivers bouncy castles, obstacle courses and marquees across Galway, Mayo, Roscommon, Clare and Limerick. Find your area.",
         "/areas/") + body)
 
-    picks = [PRODUCTS[3], PRODUCTS[4], PRODUCTS[10]]
+    # County and town pages. The place-specific copy (drive times, focus,
+    # picks, FAQ) lives in AREA_COPY and DRIVE in data.py. Keep it to facts
+    # from the product data and measured road distances. No prices.
+    by_slug = {p["slug"]: p for p in PRODUCTS}
+    town_pages = {t["name"]: t["slug"] for t in TOWNS}
+
+    def footprint(p):
+        """Flat ground needed once the 1.5 m clearance on every side is added (1.5 m is about 5 ft)."""
+        m = re.match(r"(\d+)ft x (\d+)ft", p["size"])
+        if m:
+            return f"needs roughly {int(m.group(1)) + 10}ft by {int(m.group(2)) + 10}ft of flat ground once you add the clearance"
+        m = re.match(r"(\d+)ft", p["size"])
+        if m:
+            return f"needs roughly {int(m.group(1)) + 10}ft of flat length once you add the clearance"
+        return ""
+
+    def picks_html(copy):
+        items = []
+        for slug, why in copy["picks"]:
+            p = by_slug[slug]
+            facts = [p["size"].replace(" (16.8m)", "")] if p["size"] not in ("Ask us", "Sized to your event") else []
+            if p["ages"] != "Ask us":
+                facts.append(f"ages {p['ages']}" if p["ages"][0].isdigit() else p["ages"].lower())
+            fp = footprint(p)
+            extra = f" It {fp}." if fp else ""
+            meta = f" ({', '.join(facts)})" if facts else ""
+            items.append(f'<li>{CHECK_SVG}<span><a href="/hire/{slug}/" style="color:var(--green);text-decoration:underline">{html.escape(p["name"])}</a>{meta}: {why}{extra}</span></li>')
+        return f'<ul class="checks picks">{"".join(items)}</ul>'
+
+    def place_link(name):
+        slug = town_pages.get(name)
+        return f'<a href="/areas/{slug}/">{name}</a>' if slug else name
+
+    def dist_rows(names):
+        rows = "".join(
+            (f"<tr><td>{place_link(n)}</td><td colspan=\"2\">Our base</td></tr>" if n == "Oranmore" else
+             f"<tr><td>{place_link(n)}</td><td>{DRIVE[n]['km']} km</td><td>{DRIVE[n]['mins']} min</td></tr>")
+            for n in names)
+        return (f'<table class="dist"><thead><tr><th>From Oranmore to</th><th>By road</th><th>Drive time</th></tr></thead>'
+                f'<tbody>{rows}</tbody></table>'
+                f'<p class="dist-note">Measured with OpenStreetMap routing to the town centre. Real times vary with traffic.</p>')
+
+    def summary(where):
+        return (f"Obstacle courses, combi bouncy castles, inflatable games, marquees and the Pub Inflatable for hire in {where}, "
+                f"delivered, set up and collected by our team from Oranmore, Co Galway. "
+                f"For a quote, send a booking request online or call {PHONE}, and we confirm availability and price, usually the same day.")
+
+    before_day = f"""
+<section class="sec">
+  <div class="wrap" style="max-width:860px">
+    <h2>Before the day</h2>
+    <p class="lede" style="margin-top:10px">Every inflatable needs a flat area big enough for the unit with at least 1.5 metres of clear space on all sides, clear access to the site, and a standard plug socket nearby for the blower. If you are unsure about your space, send us a photo on <a href="{WHATSAPP}" target="_blank" rel="noopener" style="color:var(--green);text-decoration:underline">WhatsApp</a> and we will tell you straight away.</p>
+    <p class="lede" style="margin-top:10px">Most of our castles have rain covers, so light rain is no problem. In high winds or severe weather we work with you to rearrange. Every unit is cleaned and inspected between hires, and we are fully insured for inflatable hire.</p>
+  </div>
+</section>"""
+
+    def faq_block(faqs, place):
+        ld = ",".join(
+            '{"@type":"Question","name":%s,"acceptedAnswer":{"@type":"Answer","text":%s}}'
+            % (json.dumps(html.unescape(q)), json.dumps(html.unescape(re.sub("<[^>]+>", "", a))))
+            for q, a in faqs)
+        extra = '<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[%s]}</script>' % ld
+        sec = f"""
+<section class="sec tint">
+  <div class="wrap">
+    <div class="sec-head"><h2>Questions about hire in {place}</h2></div>
+    {faq_html(faqs)}
+  </div>
+</section>"""
+        return sec, extra
+
+    def price_faq(place):
+        return (f"How do I get a price for {place}?",
+                f'Prices are not listed online. Send a booking request on the <a href="/book/">Book online</a> page with your date and the unit you want, '
+                f"or call or WhatsApp {PHONE}. We confirm availability and price by phone or email, usually the same day, and no card is needed to send a request.")
+
+    def hm(mins):
+        """75 -> '1 hour 15 minutes', 45 -> '45 minutes'."""
+        h, m = divmod(mins, 60)
+        if not h:
+            return f"{m} minutes"
+        return f"{h} hour" + (f" {m} minutes" if m else "")
+
+    def town_drive(name):
+        d = DRIVE[name]
+        if name == "Oranmore":
+            return ("We are based in Oranmore, so this is the shortest delivery we make. "
+                    "Our team delivers, sets up and collects every unit, and the table below shows how far the other places we list in Co Galway are from here.")
+        via = f" via the {d['via']}" if d.get("via") else ""
+        return (f"{name} is about {d['km']} km from our base in Oranmore, roughly {hm(d['mins'])} by road{via}. "
+                f"Our team delivers, sets up and collects every unit.")
+
+    def town_faq_deliver(name):
+        d = DRIVE[name]
+        if name == "Oranmore":
+            return "Yes. Oranmore is where we are based. Delivery, setup and collection are included."
+        return (f"Yes. {name} is about {d['km']} km from Oranmore, around {hm(d['mins'])} by road. "
+                f"Delivery, setup and collection are included.")
+
+    def county_drive(c, copy):
+        others = [n for n in c["towns"] if n != "Oranmore"]
+        lo = min(DRIVE[n]["mins"] for n in others)
+        hi = max(DRIVE[n]["mins"] for n in others)
+        near = min(others, key=lambda n: DRIVE[n]["km"])
+        far = max(others, key=lambda n: DRIVE[n]["km"])
+        if "Oranmore" in c["towns"]:
+            first = f"Oranmore is our base, and every other place we list in Co {c['name']} is within {hm(hi)} of it by road. "
+        else:
+            first = f"Every place we list in Co {c['name']} is between {hm(lo)} and {hm(hi)} by road from our base in Oranmore. "
+        return (f"{first}"
+                f"{near} is the nearest at {DRIVE[near]['km']} km and {far} the furthest at {DRIVE[far]['km']} km. {copy.get('drive_note', '')}").strip()
+
+    def picks_section(copy):
+        cards = "".join(product_card(by_slug[s]) for s, _ in copy["picks"])
+        return f"""
+<section class="sec tint">
+  <div class="wrap">
+    <div class="sec-head"><h2>{copy["focus_h"]}</h2><p class="lede">{copy["focus"]}</p></div>
+    {picks_html(copy)}
+    <div class="grid-cards" style="margin-top:32px">{cards}</div>
+  </div>
+</section>"""
+
     for c in COUNTIES:
+        copy = AREA_COPY[c["slug"]]
+        name = c["name"]
         towns_list = ", ".join(c["towns"])
-        cards = "".join(product_card(p) for p in picks)
+        faqs = [
+            (f"Which parts of Co {name} do you deliver to?",
+             f"The places we list for Co {name} are {towns_list}. If yours is not on the list, call us on {PHONE} with your Eircode and we will tell you straight away."),
+        ] + copy["faqs"] + [price_faq(f"Co {name}")]
+        faq_sec, faq_ld = faq_block(faqs, f"Co {name}")
         body = f"""
 {navbar("/areas/")}
-{page_hero(f"Bouncy castle &amp; marquee hire in Co {c['name']}",
-           c["blurb"], crumbs=[("/", "Home"), ("/areas/", "Areas"), (None, f"Co {c['name']}")])}
+{page_hero(f"Bouncy castle &amp; marquee hire in Co {name}", summary(f"Co {name}"),
+           crumbs=[("/", "Home"), ("/areas/", "Areas"), (None, f"Co {name}")])}
 <section class="sec">
   <div class="wrap">
     <div class="split">
       <div>
-        <h2>Serving all of {c['name']}</h2>
-        <p>We regularly deliver to {towns_list} and everywhere in between. Delivery, setup and collection are all handled by our team, and every unit is cleaned and inspected between hires.</p>
-        <ul class="checks">
-          <li>{CHECK_SVG}Fully insured for inflatable hire</li>
-          <li>{CHECK_SVG}Day, midweek and weekend hire</li>
-          <li>{CHECK_SVG}Packages across castles, courses, marquees and games</li>
-        </ul>
-        <div class="acts" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
-          <a href="/book/" class="btn btn-amber">Book online</a>
-          <a href="/hire/" class="btn btn-line">See the range</a>
-        </div>
+        <h2>How far we travel in Co {name}</h2>
+        <p>{county_drive(c, copy)}</p>
+        {dist_rows(c["towns"])}
       </div>
-      <div class="img" data-reveal><img src="{IMG}2026/04/home-danger-zone.jpg" alt="Obstacle course hire in {c['name']}" loading="lazy"></div>
+      <div class="img" data-reveal><img src="{copy["img"]}" alt="{html.escape(copy["img_alt"])}" loading="lazy"></div>
     </div>
   </div>
 </section>
-<section class="sec tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>Popular in {c['name']}</h2></div>
-    <div class="grid-cards">{cards}</div>
-  </div>
-</section>
+{picks_section(copy)}
+{before_day}
+{faq_sec}
+{cta_band(f"Booking in Co {name}?", "Pick your unit and date online and we will confirm availability and price, usually the same day.")}
 {footer()}"""
         write(f"/areas/{c['slug']}/index.html", head(
             f"Bouncy Castle Hire {c['name']} | West Marquees and Inflatables",
             f"Bouncy castle, obstacle course and marquee hire across Co {c['name']}: {towns_list}. Delivered and set up, fully insured. Book online.",
-            f"/areas/{c['slug']}/") + body)
+            f"/areas/{c['slug']}/", extra=faq_ld) + body)
 
     for t in TOWNS:
         county = next(c for c in COUNTIES if c["name"] == t["county"])
-        cards = "".join(product_card(p) for p in picks)
+        copy = AREA_COPY[t["slug"]]
+        name = t["name"]
+        nearby = [n for n in county["towns"] if n != name]
+        faqs = [(f"Do you deliver to {name}?", town_faq_deliver(name))] + copy["faqs"] + [price_faq(name)]
+        faq_sec, faq_ld = faq_block(faqs, name)
         body = f"""
 {navbar("/areas/")}
-{page_hero(f"Bouncy castle hire in {t['name']}",
-           t["blurb"], crumbs=[("/", "Home"), ("/areas/", "Areas"), (f"/areas/{county['slug']}/", f"Co {t['county']}"), (None, t["name"])])}
+{page_hero(f"Bouncy castle hire in {name}", summary(name),
+           crumbs=[("/", "Home"), ("/areas/", "Areas"), (f"/areas/{county['slug']}/", f"Co {t['county']}"), (None, name)])}
 <section class="sec">
   <div class="wrap">
     <div class="split">
       <div>
-        <h2>What you can hire in {t['name']}</h2>
-        <p>The full West Marquees range is available in {t['name']}: 55ft obstacle courses, themed combi castles, the 4M foot dart board, the penalty shootout, marquees and the Pub Inflatable. Delivery, setup and collection included.</p>
-        <ul class="checks">
-          <li>{CHECK_SVG}Fully insured, cleaned between every hire</li>
-          <li>{CHECK_SVG}Book online</li>
-          <li>{CHECK_SVG}Local team based in Oranmore, Co Galway</li>
-        </ul>
-        <div class="acts" style="display:flex;gap:12px;flex-wrap:wrap;margin-top:20px">
-          <a href="/book/" class="btn btn-amber">Book online</a>
-          <a href="tel:{PHONE.replace(' ', '')}" class="btn btn-line">Call {PHONE}</a>
-        </div>
+        <h2>{copy.get("drive_h", f"Delivery to {name}")}</h2>
+        <p>{town_drive(name)}</p>
+        <h3 style="margin:22px 0 10px;font-size:19px">Other places we list in <a href="/areas/{county['slug']}/" style="color:var(--green);text-decoration:underline">Co {t['county']}</a></h3>
+        {dist_rows(nearby)}
       </div>
-      <div class="img" data-reveal><img src="{IMG}2026/05/Disco-Home.png" alt="Disco obstacle course hire in {t['name']}" loading="lazy"></div>
+      <div class="img" data-reveal><img src="{copy["img"]}" alt="{html.escape(copy["img_alt"])}" loading="lazy"></div>
     </div>
   </div>
 </section>
-<section class="sec tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>Popular in {t['name']}</h2></div>
-    <div class="grid-cards">{cards}</div>
-  </div>
-</section>
+{picks_section(copy)}
+{before_day}
+{faq_sec}
+{cta_band(f"Booking in {name}?", "Pick your unit and date online and we will confirm availability and price, usually the same day.")}
 {footer()}"""
         write(f"/areas/{t['slug']}/index.html", head(
             f"Bouncy Castle Hire {t['name']}, Co {t['county']} | West Marquees and Inflatables",
             f"Bouncy castle, obstacle course and marquee hire in {t['name']}, Co {t['county']}. Delivered, set up and fully insured. Book online with West Marquees and Inflatables.",
-            f"/areas/{t['slug']}/") + body)
+            f"/areas/{t['slug']}/", extra=faq_ld) + body)
 
 # ----------------------------------------------------------------- about -----
 def build_about():

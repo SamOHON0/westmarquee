@@ -358,3 +358,14 @@ footer .wrap{padding:54px 24px 28px}
   [data-reveal]{opacity:1;transform:none;transition:none}
   .pcard,.cats a,.btn,.area-tile{transition:none}
 }
+
+/* area pages: drive-time table and unit picks */
+.dist{width:100%;border-collapse:collapse;background:#fff;border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;font-size:15px;margin-top:6px}
+.dist th,.dist td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line)}
+.dist th{font-family:'Fredoka',sans-serif;font-weight:600;color:var(--green);background:var(--green-tint)}
+.dist td{font-weight:700;color:var(--ink-soft)}
+.dist tr:last-child td{border-bottom:none}
+.dist a{color:var(--green);text-decoration:underline}
+.dist-note{font-size:13px;color:var(--ink-faint);margin-top:8px}
+.picks{max-width:860px;gap:14px}
+.picks li{font-weight:600}
