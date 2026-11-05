@@ -231,7 +231,9 @@ def cta_band(h, p):
 def write(path, content):
     full = os.path.join(OUT, path.lstrip("/"))
     os.makedirs(os.path.dirname(full), exist_ok=True)
-    with open(full, "w") as f:
+    # utf-8 and \n explicitly: on Windows the defaults are cp1252 (which broke
+    # the euro sign on the FAQ page) and CRLF line endings.
+    with open(full, "w", encoding="utf-8", newline="\n") as f:
         f.write(content)
 
 def trustband():
