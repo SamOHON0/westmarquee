@@ -1,7 +1,7 @@
 # West Marquees and Inflatables: site data
 # Real images + copy sourced from westmarqueesandinflatables.ie
 
-DOMAIN = "https://westmarqueesandinflatables.ie"
+DOMAIN = "https://www.westmarqueesandinflatables.ie"
 BUSINESS_ID = "cb395296-bd08-492a-a0fa-162f5fe5227b"
 PARTYOPS = "https://partyops.app"
 # Home-page availability calendar. PartyOps shows price_on_request items as
